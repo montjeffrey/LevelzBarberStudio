@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book an Appointment - Levelz Barber Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="keywords" content="Levelz Barber Studio, Barber, Barbershop, Succasunna, NJ, Haircut, Beard Trim, Kids Haircut, Men's Haircut, Fade, Shave, Grooming, Hair Styling, Barbers in New Jersey, Hair Products, Volume Powder, Pomade, Curl Cream, Fiber Clay, Clay Wax, Modern Barbershop, Booksy, Walk-ins, Professional Barbers, Gallery, Haircuts, Barbershop Near Me, Best Barbershop, Men's Grooming, Hair Salon, Hair Care, Hair Studio, Main St Succasunna, Levelz Products">
+    <meta name="description" content="Levelz Barber Studio is a modern barbershop in Succasunna, NJ, offering professional haircuts, beard trims, shaves, and premium hair products. Book your appointment online or walk in for a fresh look from our expert barbers.">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="index.html"><img src="images/levelz-logo.png" alt="Levelz Barber Studio Logo" class="logo-img"></a>
+            </div>
+            <nav class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#team" class="nav-link">Our Barbers</a>
+                <a href="#gallery" class="nav-link">Gallery</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <button id="booksy-nav-btn" class="btn-book js-booksy-open active" type="button">Book Now</button>
+            </nav>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Back Button -->
+    <a href="index.html#hero" class="back-btn" aria-label="Back to Home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      Back
+    </a>
+    <!-- End Back Button -->
+
+    <!-- Booking Section with Hero Background -->
+    <section class="hero booking-hero">
+        <div class="hero-content">
+            <h1 class="page-title">Book Your Appointment</h1>
+            <div class="booking-widget-wrapper">
+                <div id="booksy-widget"></div>
+            </div>
+        </div>
+        <div class="hero-overlay"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>46 Main St, Succasunna, NJ 07876</p>
+                    <p>Phone: 973-577-2002</p>
+                    <p>Email: Levelzbarberstudio@gmail.com</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Hours</h3>
+                    <p>Mon-Friday: 9AM - 6PM</p>
+                    <p>Saturday: 9AM - 3PM</p>
+                    <p>Sunday: Closed</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <a href="https://instagram.com/levelzbarberstudio" target="_blank">@Levelzbarberstudio</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Levelz Barber Studio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script type="text/javascript">
+      window.booksyWidgetConfig = {
+        id: "1066445",
+        country: "us",
+        lang: "en-US",
+        button: {
+          container: ".js-booksy-open",
+          label: "Book Now!"
+        },
+        mode: "dialog"
+      };
+    </script>
+    <script type="text/javascript" src="https://booksy.com/widget/code.js?id=1066445&country=us&lang=en-US"></script>
+</body>
+</html> 
