@@ -21,26 +21,14 @@ if (hamburger && navMenu) {
 window.addEventListener('DOMContentLoaded', function() {
     var heroLogo = document.querySelector('.hero-logo-fade');
     var heroText = document.querySelector('.hero-text-fade');
-    var heroTitle = document.querySelector('.hero-title-fade');
+    var heroTitles = document.querySelectorAll('.hero-title-fade');
     var heroButtons = document.querySelectorAll('.hero-btn-fade');
     
     if(heroLogo) {
         setTimeout(function() {
-            heroLogo.style.transition = 'opacity 1.5s cubic-bezier(.4,0,.2,1), transform 1.5s cubic-bezier(.4,0,.2,1)';
+            heroLogo.style.transition = 'opacity 1.5s cubic-bezier(.4,0,.2,1)';
             heroLogo.style.opacity = 1;
-            heroLogo.style.transform = 'translateY(0)';
-            // Fade in hero title after logo
-            if(heroTitle) {
-                setTimeout(function() {
-                    heroTitle.classList.add('visible');
-                }, 500);
-            }
         }, 200);
-    } else if(heroTitle) {
-        // Fallback if no logo
-        setTimeout(function() {
-            heroTitle.classList.add('visible');
-        }, 400);
     }
     
     if(heroText) {
@@ -51,6 +39,12 @@ window.addEventListener('DOMContentLoaded', function() {
         }, 800);
     }
     
+    heroTitles.forEach(function(title, index) {
+        setTimeout(function() {
+            title.classList.add('visible');
+        }, 600 + (index * 200));
+    });
+
     heroButtons.forEach(function(button, index) {
         setTimeout(function() {
             button.classList.add('visible');
@@ -94,6 +88,64 @@ window.addEventListener('DOMContentLoaded', function() {
             } else {
                 alert('The booking button is not loaded yet. Please try again in a moment.');
             }
+        });
+    }
+
+    // Services Book Now button triggers Booksy widget
+    var servicesBookBtn = document.getElementById('services-book-now');
+    if (servicesBookBtn) {
+        servicesBookBtn.addEventListener('click', function() {
+            var booksyBtn = document.querySelector('.booksy-widget__button, .booksy-widget-button, button[data-booksy-widget]');
+            if (booksyBtn) {
+                booksyBtn.click();
+            } else {
+                alert('The booking button is not loaded yet. Please try again in a moment.');
+            }
+        });
+    }
+
+    // Hero header/subheader scroll transition
+    var hero = document.querySelector('.hero');
+    var logoHeader = document.querySelector('.hero-logo-header');
+    var subheadline = document.querySelector('.hero-subheadline');
+    function handleHeroScroll() {
+        if (!hero || !logoHeader || !subheadline) return;
+        var rect = hero.getBoundingClientRect();
+        var trigger = window.innerHeight * 0.6;
+        if (rect.bottom < trigger) {
+            logoHeader.classList.add('scrolled');
+            subheadline.classList.add('scrolled');
+        } else {
+            logoHeader.classList.remove('scrolled');
+            subheadline.classList.remove('scrolled');
+        }
+    }
+    window.addEventListener('scroll', handleHeroScroll);
+    handleHeroScroll();
+
+    var heroSubheadline = document.querySelector('.hero-subheadline');
+    if(heroSubheadline) {
+        setTimeout(function() {
+            heroSubheadline.classList.add('visible');
+        }, 400);
+    }
+
+    // Back to Top Button
+    var backToTopBtn = document.getElementById('backToTopBtn');
+    function handleBackToTopVisibility() {
+        if (!backToTopBtn || !hero) return;
+        var heroBottom = hero.getBoundingClientRect().bottom;
+        if (heroBottom < 0) {
+            backToTopBtn.classList.add('visible');
+        } else {
+            backToTopBtn.classList.remove('visible');
+        }
+    }
+    window.addEventListener('scroll', handleBackToTopVisibility);
+    handleBackToTopVisibility();
+    if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 });
@@ -259,4 +311,135 @@ window.addEventListener('DOMContentLoaded', function() {
             observer.observe(img);
         });
     }
-}); 
+});
+
+// Combined Rating Animation
+function animateCombinedRating() {
+    const ratingTarget = 4.95;
+    const reviewTarget = 360;
+    const ratingElem = document.getElementById('combined-rating-value');
+    const countElem = document.getElementById('combined-rating-count');
+    const stars = document.querySelectorAll('#combined-rating-stars .star');
+    // Animation timing (slowed down for smoothness)
+    const starDelay = 260;
+    const starAnimTime = 900;
+    const totalStarTime = (stars.length - 1) * starDelay + starAnimTime;
+    const ratingAnimTime = totalStarTime + 300;
+    // --- Custom rating count up logic ---
+    let rating = 0;
+    let reviews = 0;
+    let ratingProgress = 0;
+    let reviewProgress = 0;
+    // Step 1: Count up in whole numbers to 4
+    let currentInt = 0;
+    const intStepTime = Math.floor(ratingAnimTime * 0.45 / 4); // 45% of time for 1-4
+    function countToFour() {
+        if (currentInt < 4) {
+            currentInt++;
+            ratingElem.textContent = currentInt;
+            setTimeout(countToFour, intStepTime);
+        } else {
+            // Step 2: Pause, then animate to 4.9
+            setTimeout(() => {
+                let decimal = 4.0;
+                const to49Steps = 8;
+                const to49StepTime = Math.floor(ratingAnimTime * 0.25 / to49Steps); // 25% of time for 4.0 to 4.9
+                function countTo49() {
+                    if (decimal < 4.9) {
+                        decimal += 0.1;
+                        if (decimal > 4.9) decimal = 4.9;
+                        ratingElem.textContent = decimal.toFixed(1);
+                        setTimeout(countTo49, to49StepTime);
+                    } else {
+                        // Step 3: Pause, then animate to 4.95
+                        setTimeout(() => {
+                            let last = 4.90;
+                            const to495Steps = 5;
+                            const to495StepTime = Math.floor(ratingAnimTime * 0.3 / to495Steps); // 30% of time for 4.90 to 4.95
+                            function countTo495() {
+                                if (last < 4.95) {
+                                    last += 0.01;
+                                    if (last > 4.95) last = 4.95;
+                                    ratingElem.textContent = last.toFixed(2);
+                                    setTimeout(countTo495, to495StepTime);
+                                } else {
+                                    ratingElem.textContent = '4.95';
+                                }
+                            }
+                            countTo495();
+                        }, 180);
+                    }
+                }
+                countTo49();
+            }, 180);
+        }
+    }
+    countToFour();
+    // Animate review count up as before
+    let reviewsStep = Math.ceil(reviewTarget / (ratingAnimTime / 18));
+    let reviewsCount = 0;
+    let reviewInterval = setInterval(() => {
+        reviewsCount += reviewsStep;
+        if (reviewsCount >= reviewTarget) {
+            reviewsCount = reviewTarget;
+            clearInterval(reviewInterval);
+        }
+        countElem.textContent = reviewsCount;
+    }, 18);
+    // Animate stars with pass-and-settle effect, smooth stagger, and glow as they settle
+    stars.forEach((star, i) => {
+        setTimeout(() => {
+            star.classList.add('settle');
+            setTimeout(() => {
+                star.classList.add('lit'); // turn on the star at 300ms (earlier in the animation)
+            }, 300);
+            setTimeout(() => star.classList.remove('settle'), starAnimTime);
+        }, 400 + i * starDelay);
+    });
+}
+
+// Trigger animation when section enters viewport
+function setupCombinedRatingAnimation() {
+    const section = document.getElementById('reviews');
+    let animated = false;
+    if (!section) return;
+    const observer = new window.IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting && !animated) {
+                animateCombinedRating();
+                animated = true;
+            }
+        });
+    }, { threshold: 0.4 });
+    observer.observe(section);
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+    setupCombinedRatingAnimation();
+});
+
+// Gallery Book Now button triggers Booksy widget
+var galleryBookBtn = document.getElementById('gallery-book-now');
+if (galleryBookBtn) {
+    galleryBookBtn.addEventListener('click', function() {
+        var booksyBtn = document.querySelector('.booksy-widget__button, .booksy-widget-button, button[data-booksy-widget]');
+        if (booksyBtn) {
+            booksyBtn.click();
+        } else {
+            alert('The booking button is not loaded yet. Please try again in a moment.');
+        }
+    });
+}
+
+// Barbers page Book Now button triggers Booksy widget
+var barbersBookBtn = document.getElementById('barbers-book-now');
+if (barbersBookBtn) {
+    barbersBookBtn.addEventListener('click', function() {
+        var booksyBtn = document.querySelector('.booksy-widget__button, .booksy-widget-button, button[data-booksy-widget]');
+        if (booksyBtn) {
+            booksyBtn.click();
+        } else {
+            alert('The booking button is not loaded yet. Please try again in a moment.');
+        }
+    });
+} 

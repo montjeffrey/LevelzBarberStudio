@@ -150,9 +150,9 @@
                 <a href="#services" class="nav-link">Services</a>
                 <a href="#team" class="nav-link">Our Barbers</a>
                 <a href="#products" class="nav-link">Products</a>
-                <a href="#gallery" class="nav-link">Gallery</a>
+                <a href="#gallery-preview" class="nav-link">Gallery</a>
                 <a href="contact.html" class="nav-link">Contact</a>
-                <button class="btn btn-primary" id="nav-book-placeholder" type="button">Book Now</button>
+                <button class="btn btn-primary" id="nav-book-placeholder" type="button">Book Now!</button>
             </nav>
             <div class="hamburger" id="hamburger">
                 <span></span>
@@ -165,21 +165,55 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <img src="images/levelz-logo.png" alt="Levelz Barber Studio logo - Succasunna NJ barbershop" class="hero-logo-fade">
-            <p class="hero-text-fade">A Welcome Atmosphere, A Good Vibe</p>
+            <h1 class="hero-logo-header"><img src="images/levelz-logo.png" alt="Levelz Barber Studio logo - Succasunna NJ barbershop" class="logo-img hero-logo-fade"></h1>
+            <p class="hero-subheadline">Trusted by Pros. Loved by the Community.</p>
+           
             <div class="hero-buttons">
                 <a href="gallery.html" class="btn btn-outline-white hero-btn-fade">View Our Work</a>
-                <button class="btn btn-primary hero-btn-fade" id="hero-book-now" type="button">Book Now</button>
+                <button class="btn btn-primary hero-btn-fade" id="hero-book-now" type="button">Book Now!</button>
             </div>
         </div>
         <div class="hero-overlay"></div>
     </section>
 
-    <!-- Services Overview -->
-    <section class="services-overview" id="services">
+    <!-- Prominent Combined Reviews Section -->
+    <section class="reviews section-white" id="reviews">
+        <div class="container">
+            <h2 class="reviews-title">What Our Clients Say</h2>
+            <div class="reviews-subtitle">Real feedback from our community</div>
+            <div class="reviews-pros-note">Chosen by professional athletes and hundreds of happy clients.</div>
+            <div class="current-rating-label">Current Rating</div>
+            <div class="combined-rating-prominent">
+                <div class="combined-rating-box">
+                    <div class="combined-rating-stars" id="combined-rating-stars">
+                        <!-- 5 stars, will be filled by JS -->
+                        <span class="star" data-star="1">&#9733;</span>
+                        <span class="star" data-star="2">&#9733;</span>
+                        <span class="star" data-star="3">&#9733;</span>
+                        <span class="star" data-star="4">&#9733;</span>
+                        <span class="star" data-star="5">&#9733;</span>
+                    </div>
+                    <div class="combined-rating-score">
+                        <span id="combined-rating-value">0.00</span> <span class="combined-rating-outof">/ 5</span>
+                    </div>
+                    <div class="combined-rating-desc">
+                        Based on <span id="combined-rating-count">0</span> reviews from Google &amp; Booksy
+                    </div>
+                    <div class="combined-rating-links">
+                        <a href="https://www.google.com/maps/place/Levelz+Barber+Studio/@40.8654552,-74.6365108,853m/data=!3m1!1e3!4m8!3m7!1s0x89c39f5404f2ec57:0x3c70b50d73eaed11!8m2!3d40.8654512!4d-74.6339359!9m1!1b1!16s%2Fg%2F11l5hk8vxs?entry=ttu&g_ep=EgoyMDI1MDYyMy4yIKXMDSoASAFQAw%3D%3D" target="_blank" class="prominent-rating-link">Google Reviews</a>
+                        &nbsp;|&nbsp;
+                        <a href="https://booksy.com/en-us/1066445_levelz-barber-studio_barber-shop_15714_succasunna" target="_blank" class="prominent-rating-link">Booksy Reviews</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Overview (moved up) -->
+    <section class="services-overview section-transparent-bg" id="services">
         <div class="container">
             <h2>Our Services</h2>
-            <div class="services-grid">
+            <div class="services-list-container">
                 <div class="service-card">
                     <h3>LVL 1</h3>
                     <p>Haircut</p>
@@ -213,23 +247,27 @@
             </div>
             <div class="text-center">
                 <a href="services.html" class="btn btn-primary">See All Services</a>
+                <button class="btn btn-primary" id="services-book-now" type="button" style="margin-left:1rem;">Book Now!</button>
             </div>
         </div>
     </section>
 
-    <!-- Meet the Team Preview -->
-    <section class="team-preview" id="team">
+    <!-- Meet the Team (moved after services) -->
+    <section class="team-preview section-white" id="team">
         <div class="container">
             <h2>Meet the Team</h2>
+            
             <div class="team-grid">
                 <div class="team-card">
                     <div class="team-photo"><img src="images/alex-faceshot.jpeg" alt="Alex - Owner/Master Barber"></div>
-                    <h3>Alex</h3>
+                    <h3 style="text-align:center;">Alex</h3>
+                    <div class="team-badge" style="text-align:center; font-size:0.95em; color:#388e3c; background:#e8f5e9; border-radius:6px; padding:2px 8px; margin:0 auto 6px auto; font-weight:600; display:inline-block;">Trusted by New York Jets players</div>
                     <p>Owner/Master Barber</p>
                 </div>
                 <div class="team-card">
                     <div class="team-photo"><img src="images/anthony-faceshot.jpeg" alt="Anthony - Owner/Master Barber"></div>
-                    <h3>Anthony</h3>
+                    <h3 style="text-align:center;">Anthony</h3>
+                    <div class="team-badge" style="text-align:center; font-size:0.95em; color:#388e3c; background:#e8f5e9; border-radius:6px; padding:2px 8px; margin:0 auto 6px auto; font-weight:600; display:inline-block;">Trusted by New York Jets players</div>
                     <p>Owner/Master Barber</p>
                 </div>
                 <div class="team-card">
@@ -249,8 +287,8 @@
         </div>
     </section>
 
-    <!-- Products Section -->
-    <section class="products-section" id="products">
+    <!-- Products Section (moved after team) -->
+    <section class="products-section section-grey" id="products">
         <div class="container">
             <h2>Our Signature Product Line</h2>
             <div class="product-note">All products are available for purchase directly at the store.</div>
@@ -286,10 +324,10 @@
         </div>
     </section>
 
-    <!-- Google Reviews / Gallery Preview -->
-    <section class="reviews" id="gallery">
+    <!-- Gallery Preview (moved after products) -->
+    <section class="gallery-preview section-transparent" id="gallery-preview">
         <div class="container">
-            <h2>Gallery</h2>
+            <h2 class="gallery-title">Gallery</h2>
             <div class="gallery-masonry-grid">
                 <img src="images/image1.jpg" alt="Gallery 1" class="gallery-img">
                 <img src="images/Levelz Cover.jpeg" alt="Gallery 2" class="gallery-img">
@@ -305,6 +343,10 @@
                 <img src="images/Levelz-products cluster.jpg" alt="Gallery 12" class="gallery-img">
             </div>
             <p>Our gallery is coming soon! Check back for photos of our work and shop atmosphere.</p>
+            <div class="text-center" style="margin-top:2.5rem;">
+                <button class="btn btn-primary" id="gallery-book-now" type="button">Book Now!</button>
+                <a href="https://www.google.com/maps/place/Levelz+Barber+Studio/@40.8654552,-74.6365108,853m/data=!3m1!1e3!4m8!3m7!1s0x89c39f5404f2ec57:0x3c70b50d73eaed11!8m2!3d40.8654512!4d-74.6339359!9m1!1b1!16s%2Fg%2F11l5hk8vxs?entry=ttu&g_ep=EgoyMDI1MDYyMy4yIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn btn-outline-white" style="margin-left:1rem;">Leave Us a Review</a>
+            </div>
         </div>
     </section>
 
@@ -328,6 +370,10 @@
                 <div class="footer-section">
                     <h3>Follow Us</h3>
                     <a href="https://instagram.com/levelzbarberstudio" target="_blank">@Levelzbarberstudio</a>
+                    <h4 style="margin-top:1em; margin-bottom:0.5em; font-size:1.05em;">Leave Us a Review</h4>
+                    <a href="https://www.google.com/maps/place/Levelz+Barber+Studio/@40.8654552,-74.6365108,853m/data=!3m1!1e3!4m8!3m7!1s0x89c39f5404f2ec57:0x3c70b50d73eaed11!8m2!3d40.8654512!4d-74.6339359!9m1!1b1!16s%2Fg%2F11l5hk8vxs?entry=ttu&g_ep=EgoyMDI1MDYyMy4yIKXMDSoASAFQAw%3D%3D" target="_blank">Google</a>
+                    <span style="margin: 0 0.5em;">|</span>
+                    <a href="https://booksy.com/en-us/1066445_levelz-barber-studio_barber-shop_15714_succasunna" target="_blank">Booksy</a>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -352,5 +398,10 @@
     </div>
 
     <script src="script.js"></script>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" aria-label="Back to top">
+      &#8679;
+    </button>
 </body>
 </html> 
