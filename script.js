@@ -65,44 +65,20 @@ window.addEventListener('DOMContentLoaded', function() {
     }
     fadeInBooksyWidgetBtn();
 
-    // Booksy navbar placeholder triggers Booksy widget button in hero
-    var navBookBtn = document.getElementById('nav-book-placeholder');
-    if (navBookBtn) {
-        navBookBtn.addEventListener('click', function() {
-            var booksyBtn = document.querySelector('.booksy-widget__button, .booksy-widget-button, button[data-booksy-widget]');
-            if (booksyBtn) {
-                booksyBtn.click();
-            } else {
-                alert('The booking button is not loaded yet. Please try again in a moment.');
-            }
-        });
+    function triggerBooksyWidget() {
+        var booksyBtn = document.querySelector('.booksy-widget__button, .booksy-widget-button, button[data-booksy-widget]');
+        if (booksyBtn) {
+            booksyBtn.click();
+        } else {
+            alert('The booking button is not loaded yet. Please try again in a moment.');
+        }
     }
-
-    // Hero Book Now button triggers Booksy widget
-    var heroBookBtn = document.getElementById('hero-book-now');
-    if (heroBookBtn) {
-        heroBookBtn.addEventListener('click', function() {
-            var booksyBtn = document.querySelector('.booksy-widget__button, .booksy-widget-button, button[data-booksy-widget]');
-            if (booksyBtn) {
-                booksyBtn.click();
-            } else {
-                alert('The booking button is not loaded yet. Please try again in a moment.');
-            }
-        });
-    }
-
-    // Services Book Now button triggers Booksy widget
-    var servicesBookBtn = document.getElementById('services-book-now');
-    if (servicesBookBtn) {
-        servicesBookBtn.addEventListener('click', function() {
-            var booksyBtn = document.querySelector('.booksy-widget__button, .booksy-widget-button, button[data-booksy-widget]');
-            if (booksyBtn) {
-                booksyBtn.click();
-            } else {
-                alert('The booking button is not loaded yet. Please try again in a moment.');
-            }
-        });
-    }
+    ['nav-book-placeholder','hero-book-now','services-book-now','gallery-book-now','barbers-book-now','services-book-btn'].forEach(function(id){
+        var el = document.getElementById(id);
+        if(el){
+            el.addEventListener('click', triggerBooksyWidget);
+        }
+    });
 
     // Hero header/subheader scroll transition
     var hero = document.querySelector('.hero');
@@ -150,33 +126,6 @@ window.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Gallery Modal Functionality
-const galleryItems = document.querySelectorAll('.gallery-item');
-const galleryModal = document.getElementById('galleryModal');
-const modalImage = document.getElementById('modalImage');
-const galleryClose = document.querySelector('.gallery-close');
-
-if (galleryItems.length > 0 && galleryModal) {
-    galleryItems.forEach((item, index) => {
-        item.addEventListener('click', () => {
-            // In a real implementation, you would set the actual image source
-            modalImage.src = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><rect fill="%23333" width="800" height="600"/><text x="400" y="300" font-family="Arial" font-size="24" fill="%23fff" text-anchor="middle">Gallery Image ${index + 1}</text></svg>`;
-            galleryModal.style.display = 'block';
-        });
-    });
-
-    if (galleryClose) {
-        galleryClose.addEventListener('click', () => {
-            galleryModal.style.display = 'none';
-        });
-    }
-
-    galleryModal.addEventListener('click', (e) => {
-        if (e.target === galleryModal) {
-            galleryModal.style.display = 'none';
-        }
-    });
-}
 
 // Contact Form Handling
 const contactForm = document.getElementById('contactForm');
@@ -417,29 +366,3 @@ function setupCombinedRatingAnimation() {
 window.addEventListener('DOMContentLoaded', function() {
     setupCombinedRatingAnimation();
 });
-
-// Gallery Book Now button triggers Booksy widget
-var galleryBookBtn = document.getElementById('gallery-book-now');
-if (galleryBookBtn) {
-    galleryBookBtn.addEventListener('click', function() {
-        var booksyBtn = document.querySelector('.booksy-widget__button, .booksy-widget-button, button[data-booksy-widget]');
-        if (booksyBtn) {
-            booksyBtn.click();
-        } else {
-            alert('The booking button is not loaded yet. Please try again in a moment.');
-        }
-    });
-}
-
-// Barbers page Book Now button triggers Booksy widget
-var barbersBookBtn = document.getElementById('barbers-book-now');
-if (barbersBookBtn) {
-    barbersBookBtn.addEventListener('click', function() {
-        var booksyBtn = document.querySelector('.booksy-widget__button, .booksy-widget-button, button[data-booksy-widget]');
-        if (booksyBtn) {
-            booksyBtn.click();
-        } else {
-            alert('The booking button is not loaded yet. Please try again in a moment.');
-        }
-    });
-} 
