@@ -198,7 +198,7 @@ const observer = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 // Observe elements for animation
-document.querySelectorAll('.service-card, .team-card, .barber-card, .product-card').forEach(el => {
+document.querySelectorAll('.service-card, .team-card, .barber-card, .product-card, .faq-item').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(20px)';
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
@@ -365,4 +365,24 @@ function setupCombinedRatingAnimation() {
 
 window.addEventListener('DOMContentLoaded', function() {
     setupCombinedRatingAnimation();
+});
+
+// FAQ accordion functionality
+window.addEventListener('DOMContentLoaded', function() {
+    const items = document.querySelectorAll('.faq-item');
+    items.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        if (question && answer) {
+            question.addEventListener('click', () => {
+                const expanded = item.classList.toggle('open');
+                question.setAttribute('aria-expanded', expanded);
+                if (expanded) {
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                } else {
+                    answer.style.maxHeight = null;
+                }
+            });
+        }
+    });
 });
