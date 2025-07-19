@@ -366,3 +366,51 @@ function setupCombinedRatingAnimation() {
 window.addEventListener('DOMContentLoaded', function() {
     setupCombinedRatingAnimation();
 });
+
+// --------------------- Analytics Injection ---------------------
+function injectSeoAnalytics() {
+    if (window.ENABLE_ANALYTICS !== 'true') return;
+
+    if (window.GA_MEASUREMENT_ID) {
+        var gaTag = document.createElement('script');
+        gaTag.async = true;
+        gaTag.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.GA_MEASUREMENT_ID;
+        document.head.appendChild(gaTag);
+
+        var inline = document.createElement('script');
+        inline.text =
+            "window.dataLayer = window.dataLayer || [];" +
+            "\nfunction gtag(){dataLayer.push(arguments);}" +
+            "\ngtag('js', new Date());" +
+            "\ngtag('config', '" + window.GA_MEASUREMENT_ID + "');";
+        document.head.appendChild(inline);
+    }
+
+    if (window.GSC_VERIFICATION) {
+        var gscMeta = document.createElement('meta');
+        gscMeta.name = 'google-site-verification';
+        gscMeta.content = window.GSC_VERIFICATION;
+        document.head.appendChild(gscMeta);
+    }
+}
+
+// --------------------- FAQ Analytics Hooks ---------------------
+function trackAnalyticsEvent(name, meta) {
+    if (!window.analyticsEvents) {
+        window.analyticsEvents = [];
+    }
+    window.analyticsEvents.push({ name: name, meta: meta || {}, ts: Date.now() });
+}
+
+function setupFaqInstrumentation() {
+    document.querySelectorAll('[data-analytics="faq-question"]').forEach(function(q) {
+        q.addEventListener('click', function() {
+            var item = q.closest('[data-analytics="faq-item"]') || q;
+            var opened = item.classList.toggle('open');
+            trackAnalyticsEvent(opened ? 'faq-open' : 'faq-close', { id: item.id });
+        });
+    });
+}
+
+window.addEventListener('DOMContentLoaded', injectSeoAnalytics);
+window.addEventListener('DOMContentLoaded', setupFaqInstrumentation);
