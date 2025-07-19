@@ -1,0 +1,38 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do you accept walk-ins?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, walk-ins are welcome when chairs are available. To guarantee your spot, book now."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I book an appointment?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can easily book online or call us during business hours."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you sell hair products?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, our studio carries the full Levelz product line. Reach out on our contact page to ask about availability."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where are you located?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We are at 46 Main St in Succasunna, NJ. Need directions? See the map on our contact page."
+      }
+    }
+  ]
+}
