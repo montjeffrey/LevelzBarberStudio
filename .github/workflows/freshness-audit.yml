@@ -1,0 +1,42 @@
+name: Freshness Audit
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - run: node scripts/freshness-audit.js > audit.json
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const data = JSON.parse(fs.readFileSync('audit.json', 'utf8'));
+            const issueTitle = 'Content Freshness Audit';
+            const bodyLines = ['## Stale Content', ''];
+            if (data.staleItems.length === 0) {
+              bodyLines.push('All checked items are fresh.');
+            } else {
+              for (const item of data.staleItems) {
+                bodyLines.push(`- **${item.name}** (${item.file}) - Last updated ${item.lastUpdated} (${item.ageDays} days ago)`);
+              }
+            }
+            const body = bodyLines.join('\n');
+
+            const { data: issues } = await github.rest.issues.listForRepo({ owner, repo, state: 'open' });
+            const existing = issues.find(i => i.title === issueTitle);
+            if (existing) {
+              await github.rest.issues.update({ owner, repo, issue_number: existing.number, body });
+            } else {
+              await github.rest.issues.create({ owner, repo, title: issueTitle, body, labels: ['automation'] });
+            }
+
