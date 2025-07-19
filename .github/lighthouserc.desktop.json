@@ -1,0 +1,20 @@
+{
+  "ci": {
+    "collect": {
+      "staticDistDir": ".",
+      "numberOfRuns": 1,
+      "settings": {
+        "chromeFlags": "--no-sandbox",
+        "preset": "desktop"
+      }
+    },
+    "assert": {
+      "assertions": {
+        "largest-contentful-paint": ["error", {"maxNumericValue": 2500}],
+        "interaction-to-next-paint": ["error", {"maxNumericValue": 200}],
+        "cumulative-layout-shift": ["error", {"maxNumericValue": 0.1}]
+      }
+    },
+    "upload": { "target": "temporary-public-storage" }
+  }
+}

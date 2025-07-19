@@ -1,0 +1,21 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli
+      - name: Run Lighthouse CI - Desktop
+        run: lhci autorun --config .github/lighthouserc.desktop.json
+      - name: Run Lighthouse CI - Mobile
+        run: lhci autorun --config .github/lighthouserc.mobile.json

@@ -1,0 +1,11 @@
+name: Optimization request
+description: Suggest a performance or SEO optimization
+labels: [performance, seo]
+body:
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Describe the optimization proposal
+    validations:
+      required: true
