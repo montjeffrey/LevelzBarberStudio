@@ -39,4 +39,16 @@
       }
     });
   });
+
+  // Handle Booksy trigger links in FAQ answers
+  document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('booksy-trigger')) {
+      e.preventDefault();
+      // Try to trigger the Booksy widget
+      const booksyBtn = document.querySelector('.booksy-widget__button, .booksy-widget-button, button[data-booksy-widget]');
+      if (booksyBtn) {
+        booksyBtn.click();
+      }
+    }
+  });
 })();
