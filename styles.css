@@ -892,10 +892,6 @@ section {
     border: 1px solid #ececec;
 }
 
-.barber-profile-card:hover {
-    /* box-shadow: 0 8px 32px rgba(0,0,0,0.16); */
-}
-
 .barber-profile-card .barber-photo {
     width: 120px;
     height: 120px;
@@ -1309,10 +1305,6 @@ section {
 .service-note-bullets br + **, .service-note-bullets .double-star {
   font-weight: bold;
   color: #222;
-}
-/* Custom style for the double-star line */
-.service-note-bullets {
-  /* We'll use a span for the double-star line in the HTML for best targeting */
 }
 
 .about-section {
@@ -1837,6 +1829,8 @@ section {
   font-weight: bold;
   font-size: 1.1rem;
   margin-bottom: 0.7rem;
+}
+
 .booksy-hero-btn {
   margin-top: 1.5rem;
 }
