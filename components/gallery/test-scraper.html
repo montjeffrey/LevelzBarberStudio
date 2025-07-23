@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Scraper Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-container { max-width: 800px; margin: 0 auto; }
+        .log { background: #f0f0f0; padding: 15px; border-radius: 5px; margin: 10px 0; }
+        .success { color: green; }
+        .error { color: red; }
+        .warning { color: orange; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Instagram Scraper Test</h1>
+        <p>This will test the improved Instagram scraper with better error handling.</p>
+        
+        <button onclick="testScraper()">🔄 Test Instagram Scraper</button>
+        <button onclick="clearLog()">🗑️ Clear Log</button>
+        
+        <div id="log" class="log">
+            <strong>Console Log:</strong><br>
+            Click "Test Instagram Scraper" to start...
+        </div>
+        
+        <div id="results"></div>
+    </div>
+
+    <script src="instagram-scraper.js"></script>
+    <script>
+        const logDiv = document.getElementById('log');
+        const resultsDiv = document.getElementById('results');
+        
+        // Override console methods to show in UI
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToLog(args.join(' '), 'info');
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToLog(args.join(' '), 'error');
+        };
+        
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            addToLog(args.join(' '), 'warning');
+        };
+        
+        function addToLog(message, type) {
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'warning' ? 'warning' : 'success';
+            logDiv.innerHTML += `<div class="${className}">[${timestamp}] ${message}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        function clearLog() {
+            logDiv.innerHTML = '<strong>Console Log:</strong><br>Log cleared...';
+            resultsDiv.innerHTML = '';
+        }
+        
+        async function testScraper() {
+            clearLog();
+            console.log('🧪 Starting Instagram scraper test...');
+            
+            try {
+                const scraper = new InstagramFeedScraper('levelzbarberstudio');
+                console.log('✅ Scraper instance created');
+                
+                // Test connection first
+                const connectionTest = await scraper.testConnection();
+                console.log('Connection test result:', connectionTest.message);
+                
+                if (connectionTest.success) {
+                    console.log('🎉 Scraper is working! Sample photo:', connectionTest.samplePhoto);
+                    resultsDiv.innerHTML = `
+                        <h3>✅ Success!</h3>
+                        <p>Found ${connectionTest.photoCount} photos</p>
+                        ${connectionTest.samplePhoto ? `
+                            <div style="border: 1px solid #ddd; padding: 10px; margin: 10px 0;">
+                                <strong>Sample Photo:</strong><br>
+                                <img src="${connectionTest.samplePhoto.thumbnail}" style="max-width: 200px; margin: 10px 0;"><br>
+                                <strong>Caption:</strong> ${connectionTest.samplePhoto.caption}<br>
+                                <strong>Link:</strong> <a href="${connectionTest.samplePhoto.link}" target="_blank">View on Instagram</a>
+                            </div>
+                        ` : ''}
+                    `;
+                } else {
+                    console.log('⚠️ Scraper found no photos - fallback will be used automatically');
+                    resultsDiv.innerHTML = `
+                        <h3>⚠️ No Instagram Photos Found</h3>
+                        <p><strong>This is completely normal!</strong> The gallery will automatically use your beautiful demo images.</p>
+                        <p><strong>Why this happens:</strong> Instagram actively blocks automated scraping to protect user privacy.</p>
+                        <p><strong>What happens now:</strong> Your gallery will show professional photos from your images folder.</p>
+                        <div style="background: #e8f5e8; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                            <strong>✅ Your Gallery Still Works Perfectly!</strong><br>
+                            The fallback system ensures visitors always see beautiful photos of your work.
+                        </div>
+                    `;
+                }
+                
+            } catch (error) {
+                console.error('❌ Test failed:', error.message);
+                resultsDiv.innerHTML = `
+                    <h3>❌ Test Error</h3>
+                    <p>Error: ${error.message}</p>
+                    <p>Don't worry! The gallery has fallback options that will work.</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

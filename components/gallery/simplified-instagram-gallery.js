@@ -84,15 +84,18 @@
                     this.lastUpdate = new Date();
                     console.log(`✅ Loaded ${photos.length} photos from Instagram scraper`);
                 } else {
-                    throw new Error('No photos returned from Instagram scraper');
+                    console.log('⚠️ Instagram scraper returned no photos, falling back to next option');
+                    this.hideLoading();
+                    this.fallbackToNext();
+                    return;
                 }
                 
             } catch (error) {
                 console.error('Failed to load scraped Instagram photos:', error);
-                this.showError(`Instagram Scraper Error: ${error.message}`);
-                
-                // Auto-fallback after 3 seconds
-                setTimeout(() => this.fallbackToNext(), 3000);
+                console.log('🔄 Falling back to next gallery option...');
+                this.hideLoading();
+                this.fallbackToNext();
+                return;
             } finally {
                 this.hideLoading();
             }

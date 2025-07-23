@@ -44,7 +44,7 @@ window.LEVELZ_GALLERY_CONFIG = {
     // 🔧 FINAL BACKUP: Demo Images
     // ✅ Always works | ✅ Professional look | ✅ No setup required
     fallback: {
-        enabled: false, // 👈 FINAL BACKUP - Always available
+        enabled: true, // 👈 ENABLED - Automatic fallback when scraper fails
         images: [
             'images/image1.jpg',
             'images/levelz-cover1.jpeg', 

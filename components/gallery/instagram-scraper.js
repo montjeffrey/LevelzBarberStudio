@@ -29,7 +29,15 @@ class InstagramFeedScraper {
                 console.log(`✅ Found ${photos.length} Instagram photos`);
                 return photos;
             } else {
-                throw new Error('No photos found');
+                console.log('⚠️ No photos found from scraping, will use fallback');
+                // Return cached data if available, even if expired
+                const cachedData = this.getCachedData(cacheKey);
+                if (cachedData && cachedData.length > 0) {
+                    console.log('📦 Using expired cache as fallback');
+                    return cachedData;
+                }
+                // Return empty array so the gallery can use its fallback
+                return [];
             }
 
         } catch (error) {
@@ -37,38 +45,51 @@ class InstagramFeedScraper {
             
             // Return cached data if available, even if expired
             const cachedData = this.getCachedData(cacheKey);
-            if (cachedData) {
-                console.log('⚠️ Using expired cache due to scraping error');
+            if (cachedData && cachedData.length > 0) {
+                console.log('📦 Using expired cache due to scraping error');
                 return cachedData;
             }
             
-            throw error;
+            // Return empty array instead of throwing error
+            console.log('⚠️ No cached data available, returning empty array for fallback');
+            return [];
         }
     }
 
     // Scrape Instagram photos using multiple methods
     async scrapeInstagramPhotos(limit) {
         const methods = [
-            () => this.scrapeFromPublicProfile(limit),
-            () => this.scrapeFromPublicAPI(limit),
-            () => this.scrapeFromRSSFeed(limit)
+            { name: 'Public Profile', fn: () => this.scrapeFromPublicProfile(limit) },
+            { name: 'Public API', fn: () => this.scrapeFromPublicAPI(limit) },
+            { name: 'RSS Feed', fn: () => this.scrapeFromRSSFeed(limit) }
         ];
+
+        let lastError = null;
+        const errors = [];
 
         for (let i = 0; i < methods.length; i++) {
             try {
-                const photos = await methods[i]();
+                console.log(`🔄 Trying method ${i + 1}: ${methods[i].name}`);
+                const photos = await methods[i].fn();
                 if (photos && photos.length > 0) {
+                    console.log(`✅ Success with ${methods[i].name}: found ${photos.length} photos`);
                     return photos;
                 }
+                console.log(`⚠️ ${methods[i].name} returned no photos`);
             } catch (error) {
-                console.warn(`Method ${i + 1} failed:`, error.message);
-                if (i === methods.length - 1) {
-                    throw error;
-                }
+                const errorMsg = `${methods[i].name}: ${error.message}`;
+                errors.push(errorMsg);
+                lastError = error;
+                console.warn(`❌ Method ${i + 1} failed: ${errorMsg}`);
             }
         }
 
-        throw new Error('All scraping methods failed');
+        // Create a comprehensive error message
+        const allErrors = errors.join('; ');
+        console.error('🚫 All Instagram scraping methods failed:', allErrors);
+        
+        // Instead of throwing, return empty array so fallback can handle it
+        return [];
     }
 
     // Method 1: Scrape from public Instagram profile
@@ -78,19 +99,30 @@ class InstagramFeedScraper {
             const proxyUrl = 'https://api.allorigins.win/raw?url=';
             const instagramUrl = `https://www.instagram.com/${this.username}/`;
             
+            console.log(`🔄 Fetching Instagram profile: ${instagramUrl}`);
             const response = await fetch(proxyUrl + encodeURIComponent(instagramUrl), {
                 method: 'GET',
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-                }
+                },
+                timeout: 15000 // 15 second timeout
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
 
             const html = await response.text();
-            return this.parseInstagramHTML(html, limit);
+            if (!html || html.length < 1000) {
+                throw new Error('Received incomplete HTML response');
+            }
+
+            const photos = this.parseInstagramHTML(html, limit);
+            if (photos.length === 0) {
+                throw new Error('No photos found in HTML');
+            }
+
+            return photos;
 
         } catch (error) {
             throw new Error(`Public profile scraping failed: ${error.message}`);
@@ -108,26 +140,31 @@ class InstagramFeedScraper {
 
             for (const endpoint of endpoints) {
                 try {
+                    console.log(`🔄 Trying API endpoint: ${endpoint}`);
                     const response = await fetch(endpoint, {
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest',
                             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-                        }
+                        },
+                        timeout: 10000 // 10 second timeout
                     });
 
                     if (response.ok) {
                         const data = await response.json();
                         const photos = this.parseAPIResponse(data, limit);
                         if (photos.length > 0) {
+                            console.log(`✅ API endpoint success: ${photos.length} photos found`);
                             return photos;
                         }
                     }
+                    console.log(`⚠️ API endpoint ${endpoint} returned no usable data`);
                 } catch (e) {
+                    console.log(`❌ API endpoint ${endpoint} failed: ${e.message}`);
                     continue;
                 }
             }
 
-            throw new Error('No working API endpoints');
+            throw new Error('No working API endpoints found');
 
         } catch (error) {
             throw new Error(`Public API scraping failed: ${error.message}`);
@@ -145,23 +182,37 @@ class InstagramFeedScraper {
 
             for (const rssUrl of rssServices) {
                 try {
-                    const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`);
+                    console.log(`🔄 Trying RSS feed: ${rssUrl}`);
+                    const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`, {
+                        headers: {
+                            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                        },
+                        timeout: 10000 // 10 second timeout
+                    });
+                    
                     if (response.ok) {
                         const data = await response.json();
-                        const photos = this.parseRSSFeed(data.contents, limit);
-                        if (photos.length > 0) {
-                            return photos;
+                        if (data.contents) {
+                            const photos = this.parseRSSFeed(data.contents, limit);
+                            if (photos.length > 0) {
+                                console.log(`✅ RSS feed success: ${photos.length} photos found`);
+                                return photos;
+                            }
                         }
                     }
+                    console.log(`⚠️ RSS feed ${rssUrl} returned no usable data`);
                 } catch (e) {
+                    console.log(`❌ RSS feed ${rssUrl} failed: ${e.message}`);
                     continue;
                 }
             }
 
-            throw new Error('No working RSS feeds');
+            console.log('⚠️ All RSS feeds failed or returned no data');
+            return [];
 
         } catch (error) {
-            throw new Error(`RSS feed scraping failed: ${error.message}`);
+            console.log(`❌ RSS feed method failed: ${error.message}`);
+            return [];
         }
     }
 
@@ -350,12 +401,22 @@ class InstagramFeedScraper {
     async testConnection() {
         try {
             const photos = await this.getInstagramPhotos(1);
-            return {
-                success: true,
-                photoCount: photos.length,
-                samplePhoto: photos[0] || null,
-                message: `✅ Instagram scraper connected! Found ${photos.length} photos.`
-            };
+            if (photos && photos.length > 0) {
+                return {
+                    success: true,
+                    photoCount: photos.length,
+                    samplePhoto: photos[0],
+                    message: `✅ Instagram scraper working! Found ${photos.length} photos.`
+                };
+            } else {
+                return {
+                    success: false,
+                    photoCount: 0,
+                    samplePhoto: null,
+                    error: 'No photos found from any scraping method',
+                    message: `⚠️ Instagram scraper returned no photos. Fallback will be used.`
+                };
+            }
         } catch (error) {
             return {
                 success: false,
