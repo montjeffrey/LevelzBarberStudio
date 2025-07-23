@@ -18,18 +18,22 @@
     q.addEventListener('click', () => {
       const ans = document.getElementById(q.getAttribute('aria-controls'));
       const expanded = q.getAttribute('aria-expanded') === 'true';
+      
       // Close all answers
       questions.forEach(otherQ => {
         otherQ.setAttribute('aria-expanded', 'false');
         const otherAns = document.getElementById(otherQ.getAttribute('aria-controls'));
         if (otherAns) {
           otherAns.classList.remove('open');
+          otherAns.setAttribute('hidden', '');
         }
       });
+      
       // Open this one if it was not already open
       if (!expanded) {
         q.setAttribute('aria-expanded', 'true');
         if (ans) {
+          ans.removeAttribute('hidden');
           ans.classList.add('open');
         }
       }
