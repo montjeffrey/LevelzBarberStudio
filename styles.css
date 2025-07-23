@@ -1131,7 +1131,14 @@ section {
     transform: translateY(40px);
     transition: opacity 1.1s cubic-bezier(.4,0,.2,1), transform 1.1s cubic-bezier(.4,0,.2,1);
     break-inside: avoid;
+    cursor: pointer;
 }
+
+.gallery-img:hover {
+    transform: translateY(0) scale(1.02);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+}
+
 .gallery-img.visible {
     opacity: 1;
     transform: translateY(0);
