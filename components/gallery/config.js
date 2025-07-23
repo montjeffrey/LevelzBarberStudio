@@ -23,21 +23,21 @@ window.LEVELZ_GALLERY_CONFIG = {
     // 3. Replace the example URLs below with your real ones
     // 4. Set enabled: true and scraper enabled: false
     manual: {
-        enabled: false, // 👈 BACKUP OPTION - Enable if scraper fails
+        enabled: true, // 👈 ENABLED - Use real Instagram URLs while scraper improves
         posts: [
-            // 👇 REPLACE THESE with your actual Instagram post URLs if needed
-            'https://www.instagram.com/p/EXAMPLE_POST_1/',  // Replace this
-            'https://www.instagram.com/p/EXAMPLE_POST_2/',  // Replace this  
-            'https://www.instagram.com/p/EXAMPLE_POST_3/',  // Replace this
-            'https://www.instagram.com/p/EXAMPLE_POST_4/',  // Replace this
-            'https://www.instagram.com/p/EXAMPLE_POST_5/',  // Replace this
-            'https://www.instagram.com/p/EXAMPLE_POST_6/',  // Replace this
-            'https://www.instagram.com/p/EXAMPLE_POST_7/',  // Replace this
-            'https://www.instagram.com/p/EXAMPLE_POST_8/',  // Replace this
-            'https://www.instagram.com/p/EXAMPLE_POST_9/',  // Replace this
-            'https://www.instagram.com/p/EXAMPLE_POST_10/', // Replace this
-            'https://www.instagram.com/p/EXAMPLE_POST_11/', // Replace this
-            'https://www.instagram.com/p/EXAMPLE_POST_12/'  // Replace this
+            // 👇 REPLACE THESE with your actual Instagram post URLs
+            'https://www.instagram.com/p/C8v7rZgOQPE/', // Replace with actual post
+            'https://www.instagram.com/p/C8v7rZgOQPD/', // Replace with actual post  
+            'https://www.instagram.com/p/C8v7rZgOQPC/', // Replace with actual post
+            'https://www.instagram.com/p/C8v7rZgOQPB/', // Replace with actual post
+            'https://www.instagram.com/p/C8v7rZgOQPA/', // Replace with actual post
+            'https://www.instagram.com/p/C8v7rZgOQP9/', // Replace with actual post
+            'https://www.instagram.com/p/C8v7rZgOQP8/', // Replace with actual post
+            'https://www.instagram.com/p/C8v7rZgOQP7/', // Replace with actual post
+            'https://www.instagram.com/p/C8v7rZgOQP6/', // Replace with actual post
+            'https://www.instagram.com/p/C8v7rZgOQP5/', // Replace with actual post
+            'https://www.instagram.com/p/C8v7rZgOQP4/', // Replace with actual post
+            'https://www.instagram.com/p/C8v7rZgOQP3/'  // Replace with actual post
         ]
     },
 

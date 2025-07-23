@@ -50,20 +50,25 @@
         async initializeGallery() {
             const config = this.config;
             
-            // Priority order: Free Scraper > Manual URLs > Demo Images
-            if (config.scraper.enabled) {
+            // Priority order: Manual URLs > Free Scraper > Demo Images
+            if (config.manual.enabled && config.manual.posts.length > 0) {
+                console.log('📋 Using manual Instagram URLs (highest priority)...');
+                await this.loadManualInstagramPhotos();
+            } else if (config.scraper.enabled) {
                 try {
-                    console.log('🚀 Initializing free Instagram scraper...');
-                    this.instagramScraper = new window.InstagramFeedScraper(config.scraper.username);
+                    console.log('🚀 Initializing advanced Instagram scraper...');
+                    // Try advanced scraper first
+                    if (window.AdvancedInstagramScraper) {
+                        this.instagramScraper = new window.AdvancedInstagramScraper(config.scraper.username);
+                    } else {
+                        this.instagramScraper = new window.InstagramFeedScraper(config.scraper.username);
+                    }
                     await this.loadScrapedPhotos();
                     this.setupScraperRefresh();
                 } catch (error) {
                     console.error('Instagram scraper failed:', error);
                     this.fallbackToNext();
                 }
-            } else if (config.manual.enabled && config.manual.posts.length > 0) {
-                console.log('📋 Using manual Instagram URLs...');
-                this.loadManualInstagramPhotos();
             } else if (config.fallback.enabled) {
                 console.log('🖼️ Using demo images...');
                 this.loadDemoImages();
@@ -104,30 +109,51 @@
         // Load photos from manual Instagram URLs
         async loadManualInstagramPhotos() {
             try {
-                this.showLoading('Loading Instagram photos...');
+                this.showLoading('Loading Instagram photos from URLs...');
                 const posts = this.config.manual.posts.filter(url => url && !url.includes('EXAMPLE'));
                 
                 if (posts.length === 0) {
                     throw new Error('No valid Instagram URLs configured');
                 }
 
-                const photos = posts.map((url, index) => ({
-                    id: `manual-${index}`,
-                    type: 'image',
-                    url: this.getInstagramImageUrl(url),
-                    thumbnail: this.getInstagramImageUrl(url),
-                    link: url,
-                    caption: `Instagram post from Levelz Barber Studio`,
-                    alt: `Levelz Barber Studio Instagram post ${index + 1}`
-                }));
+                console.log(`🔄 Loading ${posts.length} Instagram posts...`);
+                const photos = [];
+                
+                for (let i = 0; i < posts.length; i++) {
+                    const url = posts[i];
+                    try {
+                        // Try to get actual image from Instagram post
+                        const photo = await this.getInstagramPostImage(url, i);
+                        if (photo) {
+                            photos.push(photo);
+                            console.log(`✅ Loaded post ${i + 1}/${posts.length}`);
+                        }
+                    } catch (error) {
+                        console.log(`⚠️ Failed to load post ${i + 1}: ${error.message}`);
+                        // Add placeholder that links to the Instagram post
+                        photos.push({
+                            id: `manual-${i}`,
+                            type: 'link',
+                            url: this.getInstagramImageUrl(url),
+                            thumbnail: this.getInstagramImageUrl(url),
+                            link: url,
+                            caption: `See this post on Instagram`,
+                            alt: `Instagram post ${i + 1} - Click to view`
+                        });
+                    }
+                }
 
-                this.displayPhotos(photos, 'manual-instagram');
-                console.log(`✅ Loaded ${photos.length} manual Instagram photos`);
+                if (photos.length > 0) {
+                    this.displayPhotos(photos, 'manual-instagram');
+                    console.log(`✅ Loaded ${photos.length} Instagram photos from URLs`);
+                } else {
+                    throw new Error('No photos could be loaded from URLs');
+                }
                 
             } catch (error) {
                 console.error('Failed to load manual Instagram photos:', error);
-                this.showError(`Manual Instagram Error: ${error.message}`);
-                setTimeout(() => this.fallbackToNext(), 2000);
+                console.log('🔄 Falling back to next gallery option...');
+                this.fallbackToNext();
             } finally {
                 this.hideLoading();
             }
@@ -254,6 +280,76 @@
                 this.loadDemoImages();
             } else {
                 this.showError('All gallery options failed');
+            }
+        }
+
+        // Get actual image from Instagram post URL
+        async getInstagramPostImage(postUrl, index) {
+            try {
+                // Use oEmbed API to get post data
+                const oEmbedUrl = `https://api.instagram.com/oembed/?url=${encodeURIComponent(postUrl)}`;
+                
+                try {
+                    const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(oEmbedUrl)}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        const oEmbedData = JSON.parse(data.contents);
+                        
+                        if (oEmbedData.thumbnail_url) {
+                            return {
+                                id: `manual-${index}`,
+                                type: 'image',
+                                url: oEmbedData.thumbnail_url,
+                                thumbnail: oEmbedData.thumbnail_url,
+                                link: postUrl,
+                                caption: oEmbedData.title || `Instagram post from @levelzbarberstudio`,
+                                alt: `Instagram post ${index + 1}`,
+                                timestamp: Date.now() - (index * 3600000)
+                            };
+                        }
+                    }
+                } catch (e) {
+                    // oEmbed failed, try direct scraping
+                }
+
+                // Try to scrape the post directly
+                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(postUrl + '?__a=1')}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    const html = data.contents;
+                    
+                    // Look for image URLs in the response
+                    const imagePatterns = [
+                        /"display_url":"([^"]+)"/,
+                        /"thumbnail_src":"([^"]+)"/,
+                        /property="og:image"\s+content="([^"]+)"/,
+                        /"src":"([^"]*cdninstagram[^"]+)"/
+                    ];
+
+                    for (const pattern of imagePatterns) {
+                        const match = html.match(pattern);
+                        if (match) {
+                            const imageUrl = match[1].replace(/\\u0026/g, '&').replace(/\\"/g, '"');
+                            return {
+                                id: `manual-${index}`,
+                                type: 'image',
+                                url: imageUrl,
+                                thumbnail: imageUrl,
+                                link: postUrl,
+                                caption: `Instagram post from @levelzbarberstudio`,
+                                alt: `Instagram post ${index + 1}`,
+                                timestamp: Date.now() - (index * 3600000)
+                            };
+                        }
+                    }
+                }
+
+                // If all else fails, return null
+                return null;
+                
+            } catch (error) {
+                console.log(`Failed to get image for ${postUrl}:`, error.message);
+                return null;
             }
         }
 
