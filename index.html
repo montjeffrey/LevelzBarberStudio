@@ -443,5 +443,31 @@
     <button id="backToTopBtn" aria-label="Back to top">
       &#8679;
     </button>
+
+    <script>
+        function loadStaticInstagramGallery() {
+            const gallery = document.getElementById('instagram-gallery');
+            const embedHtml = [
+                '<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/BUG_kHAgUHT/" data-instgrm-version="12" style="max-width: 540px; width: 100%; margin: 0 auto;"> </blockquote>',
+                '<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/BdW_BnXFsCO/" data-instgrm-version="12" style="max-width: 540px; width: 100%; margin: 0 auto;"> </blockquote>',
+                '<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/BuV_4bYF6IH/" data-instgrm-version="12" style="max-width: 540px; width: 100%; margin: 0 auto;"> </blockquote>'
+            ];
+
+            embedHtml.forEach(html => {
+                const postDiv = document.createElement('div');
+                postDiv.className = 'gallery-item';
+                postDiv.innerHTML = html;
+                gallery.appendChild(postDiv);
+            });
+
+            // Load Instagram embed script
+            const script = document.createElement('script');
+            script.src = "https://www.instagram.com/embed.js";
+            script.async = true;
+            document.body.appendChild(script);
+        }
+
+        document.addEventListener('DOMContentLoaded', loadStaticInstagramGallery);
+    </script>
 </body>
-</html> 
+</html>
