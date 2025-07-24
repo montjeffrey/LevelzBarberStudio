@@ -1476,46 +1476,55 @@ section {
 
 /* Back Button Styles */
 .back-btn {
-    position: absolute;
-    top: 120px; /* increased from 90px for more space below navbar */
+    position: fixed;
+    top: 120px; /* positioned below the header */
     left: 24px;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(255,255,255,0.08);
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 0.4rem 1rem 0.4rem 0.7rem;
+    background: rgba(255,255,255,0.95);
+    color: #333;
+    border: 2px solid rgba(0,191,255,0.2);
+    border-radius: 8px;
+    padding: 0.5rem 1.2rem 0.5rem 0.8rem;
     font-size: 1.1rem;
-    font-weight: 500;
-    opacity: 0.65;
-    z-index: 1100;
+    font-weight: 600;
+    z-index: 9999;
     cursor: pointer;
     text-decoration: none;
-    transition: opacity 0.2s, background 0.2s, color 0.2s;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 .back-btn svg {
-    width: 1.1em;
-    height: 1.1em;
-    margin-right: 0.3em;
+    width: 1.2em;
+    height: 1.2em;
+    margin-right: 0.4em;
     fill: currentColor;
     display: inline-block;
     vertical-align: middle;
 }
 .back-btn:hover, .back-btn:focus {
-    opacity: 1;
-    background: rgba(0,191,255,0.12);
-    color: var(--accent-color);
+    background: var(--accent-color);
+    color: #fff;
+    border-color: var(--accent-color);
     outline: none;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,191,255,0.3);
 }
 @media (max-width: 768px) {
     .back-btn {
-        top: 100px; /* increased from 74px for mobile spacing */
-        left: 10px;
+        top: 90px; /* adjusted for mobile header height */
+        left: 16px;
         font-size: 1rem;
-        padding: 0.3rem 0.8rem 0.3rem 0.6rem;
+        padding: 0.4rem 1rem 0.4rem 0.6rem;
+        border-radius: 6px;
+    }
+    .back-btn svg {
+        width: 1.1em;
+        height: 1.1em;
+        margin-right: 0.3em;
     }
 }
 
@@ -2074,7 +2083,8 @@ section {
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 2.5rem;
-    color: #222;
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.3), 0 0px 6px rgba(0,0,0,0.5);
 }
 
 .contact-info-container {
