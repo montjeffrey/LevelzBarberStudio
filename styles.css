@@ -1121,6 +1121,47 @@ section {
     column-gap: 1.5rem;
     margin: 2rem 0;
 }
+
+/* Instagram Gallery Items */
+.gallery-item {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    display: block;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.1s cubic-bezier(.4,0,.2,1), transform 1.1s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
+    break-inside: avoid;
+    background: #fff;
+}
+
+.gallery-item:hover {
+    transform: translateY(0) scale(1.02);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+.gallery-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Instagram embed styling */
+.gallery-item .instagram-media {
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: auto !important;
+}
+
+/* Make sure Instagram embeds load smoothly */
+.gallery-item iframe {
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
 .gallery-img {
     width: 100%;
     margin-bottom: 1.5rem;
