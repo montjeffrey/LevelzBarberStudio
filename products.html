@@ -33,10 +33,16 @@
     </header>
 
     <!-- Back Button -->
-    <a href="index.html#products" class="back-btn" aria-label="Back to Products">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
-      Back
-    </a>
+    <div class="container">
+        <div class="text-center">
+            <a href="index.html#products" class="back-btn" aria-label="Back to Products">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/>
+                </svg>
+                Back
+            </a>
+        </div>
+    </div>
     <!-- End Back Button -->
 
     <!-- Hero Section -->
@@ -44,7 +50,7 @@
         <div class="hero-content">
             <img src="images/levelz-logo.png" alt="Levelz Barber Studio Logo" class="hero-logo-fade">
             <h1 class="page-title hero-title-fade">Our Signature Product Line</h1>
-            <a href="#" class="btn btn-primary hero-btn-fade js-booksy-open booksy-hero-btn">Book Now</a>
+            <button class="btn btn-primary hero-btn-fade" id="hero-book-now" type="button">Book Now!</button>
         </div>
         <div class="hero-overlay"></div>
     </section>
@@ -171,4 +177,4 @@
 
     <script src="script.js"></script>
 </body>
-</html> 
+</html>
