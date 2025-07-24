@@ -374,19 +374,9 @@
     <section class="gallery-preview section-transparent" id="gallery-preview">
         <div class="container">
             <h2 class="gallery-title">Gallery</h2>
-            
-            <!-- Masonry Gallery with existing transitions -->
-            <div class="gallery-masonry">
-                <div class="gallery-masonry-grid" id="gallery-masonry-grid">
-                    <!-- Photos will be loaded here - add your gallery images -->
-                </div>
-            </div>
-            
-            <!-- Action Buttons -->
-            <div class="gallery-actions">
-                <a href="https://instagram.com/levelzbarberstudio" target="_blank" class="btn btn-outline">Follow @levelzbarberstudio</a>
-                <button class="btn btn-primary" id="gallery-book-now" type="button">Book Now!</button>
-            </div>
+            <!-- LightWidget WIDGET -->
+<script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
+<iframe src="https://cdn.lightwidget.com/widgets/5610113fb09e5f57bf37761a0450934e.html" scrolling="no" allowtransparency="true" class="lightwidget-widget" style="width:100%;border:0;overflow:hidden;background-color:#FFFFFF00;"></iframe>
         </div>
     </section>
 
@@ -446,44 +436,6 @@
       &#8679;
     </button>
 
-    <script>
-        // Simple gallery loader for masonry grid (works with existing script.js transitions)
-        function loadGalleryImages() {
-            const galleryGrid = document.getElementById('gallery-masonry-grid');
-            if (!galleryGrid) return;
-            
-            // Sample gallery images - replace these paths with your actual photos
-            const galleryImages = [
-                'images/gallery/haircut-1.jpg',
-                'images/gallery/haircut-2.jpg', 
-                'images/gallery/haircut-3.jpg',
-                'images/gallery/haircut-4.jpg',
-                'images/gallery/haircut-5.jpg',
-                'images/gallery/haircut-6.jpg',
-                'images/gallery/haircut-7.jpg',
-                'images/gallery/haircut-8.jpg',
-                'images/gallery/haircut-9.jpg'
-            ];
-            
-            // Create gallery HTML with existing classes for masonry transitions
-            let galleryHTML = '';
-            galleryImages.forEach((imagePath, index) => {
-                galleryHTML += `<img src="${imagePath}" alt="Levelz Barber Studio Work ${index + 1}" class="gallery-img" loading="lazy" onerror="this.style.display='none'">`;
-            });
-            
-            galleryGrid.innerHTML = galleryHTML;
-            
-            console.log(`
-📸 Gallery Setup Instructions:
-1. Add your photos to the 'images/gallery/' folder
-2. Name them: haircut-1.jpg, haircut-2.jpg, etc.
-3. The existing script.js will handle all the masonry animations
-4. Photos will fade in with staggered timing as you scroll
-            `);
-        }
-
-        document.addEventListener('DOMContentLoaded', loadGalleryImages);
-    </script>
     </script>
 </body>
 </html>
