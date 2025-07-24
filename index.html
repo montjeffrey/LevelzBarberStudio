@@ -374,9 +374,17 @@
     <section class="gallery-preview section-transparent" id="gallery-preview">
         <div class="container">
             <h2 class="gallery-title">Gallery</h2>
-            <!-- LightWidget WIDGET -->
-<script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
-<iframe src="https://cdn.lightwidget.com/widgets/5610113fb09e5f57bf37761a0450934e.html" scrolling="no" allowtransparency="true" class="lightwidget-widget" style="width:100%;border:0;overflow:hidden;background-color:#FFFFFF00;"></iframe>
+            
+            <!-- Custom Masonry Gallery -->
+            <div class="instagram-gallery-grid" id="instagram-gallery">
+                <!-- Photos will be loaded here dynamically -->
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="gallery-actions">
+                <a href="https://instagram.com/levelzbarberstudio" target="_blank" class="btn btn-outline">Follow @levelzbarberstudio</a>
+                <button class="btn btn-primary" id="gallery-book-now" type="button">Book Now!</button>
+            </div>
         </div>
     </section>
 
@@ -437,48 +445,91 @@
     </button>
 
     <script>
+        // Custom Instagram Gallery with Masonry Layout
         function loadInstagramGallery() {
             const gallery = document.getElementById('instagram-gallery');
             
-            // For now, let's create a simple placeholder gallery that shows your Instagram profile
-            // You can replace these with actual Instagram post URLs from @levelzbarberstudio
-            const placeholderContent = `
-                <div class="gallery-item instagram-placeholder">
-                    <div class="instagram-placeholder-content">
-                        <div class="instagram-icon">📸</div>
-                        <h3>Follow @levelzbarberstudio</h3>
-                        <p>See our latest work on Instagram</p>
-                        <a href="https://instagram.com/levelzbarberstudio" target="_blank" class="instagram-link">
-                            View on Instagram
-                        </a>
-                    </div>
-                </div>
-            `;
-            
-            // Add the placeholder
-            gallery.innerHTML = placeholderContent;
-            
-            // Instructions for you to update with real posts:
-            console.log(`
-🔧 To display real Instagram posts:
-1. Go to https://instagram.com/levelzbarberstudio
-2. Click on a recent post
-3. Copy the URL (like: https://www.instagram.com/p/ABC123DEF/)
-4. Replace the placeholder URLs in the instagramPosts array
-5. Remove this placeholder code
-
-Example of real Instagram post URLs:
-- https://www.instagram.com/p/C9R8K7tOQmF/
-- https://www.instagram.com/p/C9PxL2MOsJh/
-            `);
-            
-            // Animate the placeholder
-            setTimeout(() => {
-                const placeholder = document.querySelector('.instagram-placeholder');
-                if (placeholder) {
-                    placeholder.classList.add('visible');
+            // Sample photos - Replace these with your actual Instagram photos
+            // You can download them from your Instagram posts and store them in your images folder
+            const instagramPosts = [
+                {
+                    image: 'images/gallery/haircut-1.jpg', // Replace with actual image paths
+                    caption: 'Fresh fade by Alex',
+                    link: 'https://instagram.com/p/example1'
+                },
+                {
+                    image: 'images/gallery/haircut-2.jpg',
+                    caption: 'Classic beard trim',
+                    link: 'https://instagram.com/p/example2'
+                },
+                {
+                    image: 'images/gallery/haircut-3.jpg',
+                    caption: 'Modern style cut',
+                    link: 'https://instagram.com/p/example3'
+                },
+                {
+                    image: 'images/gallery/haircut-4.jpg',
+                    caption: 'Kids haircut special',
+                    link: 'https://instagram.com/p/example4'
+                },
+                {
+                    image: 'images/gallery/haircut-5.jpg',
+                    caption: 'Professional styling',
+                    link: 'https://instagram.com/p/example5'
+                },
+                {
+                    image: 'images/gallery/haircut-6.jpg',
+                    caption: 'Hot towel shave',
+                    link: 'https://instagram.com/p/example6'
                 }
-            }, 300);
+            ];
+            
+            // Create gallery HTML
+            let galleryHTML = '';
+            instagramPosts.forEach((post, index) => {
+                galleryHTML += `
+                    <div class="gallery-item" data-index="${index}" style="animation-delay: ${index * 0.1}s">
+                        <div class="gallery-image-container">
+                            <img src="${post.image}" alt="${post.caption}" loading="lazy" onerror="this.src='images/placeholder-haircut.jpg'">
+                            <div class="gallery-overlay">
+                                <div class="gallery-caption">${post.caption}</div>
+                                <a href="${post.link}" target="_blank" class="gallery-link">View on Instagram</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            gallery.innerHTML = galleryHTML;
+            
+            // Animate items on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '50px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all gallery items
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                observer.observe(item);
+            });
+            
+            console.log(`
+🎨 Custom Gallery Instructions:
+1. Create a 'gallery' folder inside your 'images' folder
+2. Download your best Instagram photos and save them as:
+   - haircut-1.jpg, haircut-2.jpg, etc.
+3. Update the instagramPosts array with your actual image paths
+4. Optionally add a placeholder-haircut.jpg for fallback
+5. The gallery will automatically create a responsive masonry layout
+            `);
         }
 
         document.addEventListener('DOMContentLoaded', loadInstagramGallery);
