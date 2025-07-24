@@ -227,11 +227,13 @@ window.addEventListener('DOMContentLoaded', function() {
             modal.classList.remove('open');
         });
     }
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            modal.classList.remove('open');
-        }
-    });
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('open');
+            }
+        });
+    }
 });
 
 // Masonry gallery fade-in on scroll (tiled, staggered, reversible)
