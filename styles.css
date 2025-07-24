@@ -1162,6 +1162,55 @@ section {
     border-radius: 12px;
     transition: all 0.3s ease;
 }
+
+/* Instagram placeholder styling */
+.instagram-placeholder {
+    background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+    color: white;
+    text-align: center;
+    padding: 3rem 2rem;
+    border-radius: 12px;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.instagram-placeholder-content {
+    width: 100%;
+}
+
+.instagram-placeholder .instagram-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.instagram-placeholder h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.instagram-placeholder p {
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+.instagram-placeholder .instagram-link {
+    display: inline-block;
+    background: white;
+    color: #833ab4;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.instagram-placeholder .instagram-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
 .gallery-img {
     width: 100%;
     margin-bottom: 1.5rem;
