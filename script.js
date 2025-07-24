@@ -416,3 +416,229 @@ function setupFaqInstrumentation() {
 
 window.addEventListener('DOMContentLoaded', injectSeoAnalytics);
 window.addEventListener('DOMContentLoaded', setupFaqInstrumentation);
+
+// Gallery Video Functionality
+window.addEventListener('DOMContentLoaded', function() {
+    const galleryVideos = document.querySelectorAll('.gallery-video');
+    
+    galleryVideos.forEach(function(videoContainer) {
+        const video = videoContainer.querySelector('video');
+        const overlay = videoContainer.querySelector('.video-overlay');
+        
+        if (video && overlay) {
+            // Click to play/pause video
+            videoContainer.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (video.paused) {
+                    // Pause all other videos first
+                    galleryVideos.forEach(function(otherContainer) {
+                        const otherVideo = otherContainer.querySelector('video');
+                        if (otherVideo && !otherVideo.paused) {
+                            otherVideo.pause();
+                            otherContainer.querySelector('.video-overlay').style.opacity = '1';
+                        }
+                    });
+                    
+                    // Play this video
+                    video.play();
+                    overlay.style.opacity = '0';
+                } else {
+                    video.pause();
+                    overlay.style.opacity = '1';
+                }
+            });
+            
+            // Reset overlay when video ends
+            video.addEventListener('ended', function() {
+                overlay.style.opacity = '1';
+            });
+            
+            // Handle video loading
+            video.addEventListener('loadstart', function() {
+                overlay.style.opacity = '1';
+            });
+        }
+    });
+});
+
+// Auto-play videos when they scroll into view
+const videos = document.querySelectorAll('video');
+
+const videoObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        const video = entry.target;
+        if (entry.isIntersecting) {
+            video.play();
+        } else {
+            video.pause();
+        }
+    });
+}, {
+    threshold: 0.5
+});
+
+videos.forEach(video => videoObserver.observe(video));
+
+// Gallery Modal Functionality
+let currentImageIndex = 0;
+let galleryItems = [];
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Collect all gallery items (both images and videos)
+    const galleryElements = document.querySelectorAll('.gallery-img');
+    galleryItems = Array.from(galleryElements).map(element => {
+        if (element.classList.contains('gallery-video')) {
+            const video = element.querySelector('video source');
+            return {
+                type: 'video',
+                src: video.src,
+                element: element
+            };
+        } else {
+            const img = element.querySelector('img');
+            return {
+                type: 'image',
+                src: img.src,
+                alt: img.alt,
+                element: element
+            };
+        }
+    });
+    
+    const modal = document.getElementById('galleryModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalVideo = document.getElementById('modalVideo');
+    const modalClose = document.querySelector('.modal-close');
+    const modalPrev = document.querySelector('.modal-prev');
+    const modalNext = document.querySelector('.modal-next');
+    const modalCounter = document.getElementById('modalCounter');
+    
+    // Add click event to each gallery item
+    galleryItems.forEach((item, index) => {
+        item.element.addEventListener('click', function(e) {
+            e.preventDefault();
+            currentImageIndex = index;
+            openModal();
+        });
+    });
+    
+    function openModal() {
+        modal.classList.add('show');
+        updateModalContent();
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+    
+    function closeModal() {
+        modal.classList.remove('show');
+        // Pause video if it's playing
+        modalVideo.pause();
+        document.body.style.overflow = ''; // Restore scrolling
+    }
+    
+    function preloadAdjacentItems() {
+        // Preload next and previous items for smooth transitions
+        const nextIndex = (currentImageIndex + 1) % galleryItems.length;
+        const prevIndex = (currentImageIndex - 1 + galleryItems.length) % galleryItems.length;
+        
+        // Create image objects to preload images (videos will load on demand)
+        if (galleryItems[nextIndex] && galleryItems[nextIndex].type === 'image') {
+            const nextImg = new Image();
+            nextImg.src = galleryItems[nextIndex].src;
+        }
+        if (galleryItems[prevIndex] && galleryItems[prevIndex].type === 'image') {
+            const prevImg = new Image();
+            prevImg.src = galleryItems[prevIndex].src;
+        }
+    }
+    
+    function updateModalContent() {
+        const currentItem = galleryItems[currentImageIndex];
+        
+        if (currentItem.type === 'image') {
+            // Show image, hide video
+            modalImage.src = currentItem.src;
+            modalImage.alt = currentItem.alt;
+            modalImage.style.display = 'block';
+            modalVideo.style.display = 'none';
+            // Pause video if it was playing
+            modalVideo.pause();
+        } else if (currentItem.type === 'video') {
+            // Show video, hide image
+            modalVideo.querySelector('source').src = currentItem.src;
+            modalVideo.load(); // Reload video with new source
+            modalVideo.style.display = 'block';
+            modalImage.style.display = 'none';
+        }
+        
+        modalCounter.textContent = `${currentImageIndex + 1} / ${galleryItems.length}`;
+        preloadAdjacentItems();
+    }
+    
+    function nextImage() {
+        // Get current media element
+        const currentMedia = modalImage.style.display !== 'none' ? modalImage : modalVideo;
+        
+        // Add transition class for slide effect
+        currentMedia.classList.add('transitioning', 'slide-next');
+        modalCounter.style.opacity = '0.5';
+        
+        setTimeout(() => {
+            currentImageIndex = (currentImageIndex + 1) % galleryItems.length;
+            updateModalContent();
+            
+            // Get new media element and remove transition classes
+            const newMedia = modalImage.style.display !== 'none' ? modalImage : modalVideo;
+            newMedia.classList.remove('transitioning', 'slide-next');
+            modalCounter.style.opacity = '1';
+        }, 200); // Half of the CSS transition duration
+    }
+    
+    function prevImage() {
+        // Get current media element
+        const currentMedia = modalImage.style.display !== 'none' ? modalImage : modalVideo;
+        
+        // Add transition class for slide effect
+        currentMedia.classList.add('transitioning', 'slide-prev');
+        modalCounter.style.opacity = '0.5';
+        
+        setTimeout(() => {
+            currentImageIndex = (currentImageIndex - 1 + galleryItems.length) % galleryItems.length;
+            updateModalContent();
+            
+            // Get new media element and remove transition classes
+            const newMedia = modalImage.style.display !== 'none' ? modalImage : modalVideo;
+            newMedia.classList.remove('transitioning', 'slide-prev');
+            modalCounter.style.opacity = '1';
+        }, 200); // Half of the CSS transition duration
+    }
+    
+    // Event listeners
+    modalClose.addEventListener('click', closeModal);
+    modalNext.addEventListener('click', nextImage);
+    modalPrev.addEventListener('click', prevImage);
+    
+    // Close modal when clicking outside the image
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (!modal.classList.contains('show')) return;
+        
+        switch(e.key) {
+            case 'Escape':
+                closeModal();
+                break;
+            case 'ArrowRight':
+                nextImage();
+                break;
+            case 'ArrowLeft':
+                prevImage();
+                break;
+        }
+    });
+});

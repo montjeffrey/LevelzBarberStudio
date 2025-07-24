@@ -22,7 +22,7 @@
                 <a href="products.html" class="nav-link">Products</a>
                 <a href="gallery.html" class="nav-link active">Gallery</a>
                 <a href="contact.html" class="nav-link">Contact</a>
-                <button class="btn btn-primary" id="nav-book-placeholder" type="button">Book Now</button>
+                <button class="btn btn-primary" id="nav-book-placeholder" type="button">Book Now!</button>
             </nav>
             <div class="hamburger" id="hamburger">
                 <span></span>
@@ -44,7 +44,7 @@
         <div class="hero-content">
             <img src="images/levelz-logo.png" alt="Levelz Barber Studio Logo" class="hero-logo-fade">
             <h1 class="page-title hero-title-fade">Our Work</h1>
-            <a href="#" class="btn btn-primary hero-btn-fade js-booksy-open booksy-hero-btn">Book Now</a>
+            <button class="btn btn-primary hero-btn-fade" id="hero-book-now" type="button">Book Now!</button>
         </div>
         <div class="hero-overlay"></div>
     </section>
@@ -52,20 +52,87 @@
     <!-- Gallery Section -->
     <section class="gallery-section">
         <div class="container">
-            <h2>Gallery</h2>
-            <div class="gallery-masonry-grid">
-                <img src="images/image1.jpg" alt="Gallery 1" class="gallery-img">
-                <img src="images/Levelz Cover.jpeg" alt="Gallery 2" class="gallery-img">
-                <img src="images/levelz-cover1.jpeg" alt="Gallery 3" class="gallery-img">
-                <img src="images/Julian-faceshot.jpeg" alt="Gallery 4" class="gallery-img">
-                <img src="images/alex-faceshot.jpeg" alt="Gallery 5" class="gallery-img">
-                <img src="images/anthony-faceshot.jpeg" alt="Gallery 6" class="gallery-img">
-                <img src="images/jhon-mugshot.jpeg" alt="Gallery 7" class="gallery-img">
-                <img src="images/Levelzproducts.jpg" alt="Gallery 8" class="gallery-img">
-                <img src="images/Levelz-curl-cream.jpg" alt="Gallery 9" class="gallery-img">
-                <img src="images/Levelz-hair-pomade.jpg" alt="Gallery 10" class="gallery-img">
-                <img src="images/Levelz-volume-powder.jpg" alt="Gallery 11" class="gallery-img">
-                <img src="images/Levelz-products cluster.jpg" alt="Gallery 12" class="gallery-img">
+            <h2 class="text-center">Gallery</h2>
+            
+            <!-- Masonry Gallery -->
+            <div class="gallery-masonry">
+                <div class="gallery-masonry-grid" id="gallery-masonry-grid">
+                    <!-- Professional Gallery Images from Instagram -->
+                    <div class="gallery-img">
+                        <img src="images/gallery/SnapInsta.to_395035096_3132824573693345_2993014536818796197_n.jpg" alt="Professional Haircut and Styling" loading="lazy">
+                    </div>
+                    <div class="gallery-img">
+                        <img src="images/gallery/SnapInsta.to_395038545_663550415573254_2587157482063356915_n.jpg" alt="Expert Barber Work" loading="lazy">
+                    </div>
+                    <!-- Video Content -->
+                    <div class="gallery-img gallery-video">
+                        <video muted loop preload="metadata" autoplay>
+                            <source src="images/gallery/SnapInsta.to_AQOMrz18OMYnAdbkRdw9hxTmAa_Nnbdk4rlWbIYHq1DMUTmAYGrhhGOg6O8ula56N6aqAR2m3Y512lANY4zB4ErHwIoXq1-iGvYbvN0.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="gallery-img">
+                        <img src="images/gallery/SnapInsta.to_395497703_1058424401830583_7685599160210150318_n.jpg" alt="Modern Haircut Styles" loading="lazy">
+                    </div>
+                    <div class="gallery-img">
+                        <img src="images/gallery/SnapInsta.to_396225256_1059790145046399_2039119848284635338_n.jpg" alt="Precision Barbering" loading="lazy">
+                    </div>
+                    <div class="gallery-img">
+                        <img src="images/gallery/SnapInsta.to_468408755_17894988633076869_7646901277870972287_n.jpg" alt="Fresh Cuts and Styles" loading="lazy">
+                    </div>
+                    <div class="gallery-img">
+                        <img src="images/gallery/SnapInsta.to_468409428_17894993655076869_5332789776113907688_n.jpg" alt="Professional Grooming" loading="lazy">
+                    </div>
+                    <div class="gallery-img">
+                        <img src="images/gallery/SnapInsta.to_468431184_17894990991076869_3173376400524139070_n.jpg" alt="Barber Studio Expertise" loading="lazy">
+                    </div>
+                    <div class="gallery-img">
+                        <img src="images/gallery/SnapInsta.to_468503053_17894991039076869_7440134349338683975_n.jpg" alt="Quality Haircuts" loading="lazy">
+                    </div>
+                    <div class="gallery-img">
+                        <img src="images/gallery/SnapInsta.to_468503841_17894996520076869_6406824217173385214_n.jpg" alt="Skilled Barbering" loading="lazy">
+                    </div>
+                    <div class="gallery-img">
+                        <img src="images/gallery/SnapInsta.to_468504050_17894991120076869_413744228307426472_n.jpg" alt="Contemporary Hair Styling" loading="lazy">
+                    </div>
+                    <div class="gallery-img">
+                        <img src="images/gallery/SnapInsta.to_468520448_17894990775076869_2162943746438126114_n.jpg" alt="Expert Hair Design" loading="lazy">
+                    </div>
+                    <div class="gallery-img">
+                        <img src="images/gallery/SnapInsta.to_468520088_17894982699076869_1274220856465073907_n.jpg" alt="Professional Hair Styling" loading="lazy">
+                    </div>
+                    <div class="gallery-img">
+                        <img src="images/gallery/SnapInsta.to_468556450_17894990835076869_55111420071758808_n.jpg" alt="Professional Hair Services" loading="lazy">
+                    </div>
+                    <div class="gallery-img">
+                        <img src="images/gallery/SnapInsta.to_468568874_17894999220076869_6896868646738994780_n.jpg" alt="Master Barber Work" loading="lazy">
+                    </div>
+                    <div class="gallery-img">
+                        <img src="images/gallery/SnapInsta.to_468574100_17894987601076869_4584915481759844109_n.jpg" alt="Precision Cuts and Styling" loading="lazy">
+                    </div>
+                    <div class="gallery-img">
+                        <img src="images/gallery/SnapInsta.to_468569066_17894988918076869_2634994767887504928_n.jpg" alt="Trendy Haircuts" loading="lazy">
+                    </div>
+                    <div class="gallery-img">
+                        <img src="images/gallery/SnapInsta.to_468629726_17894987967076869_6509629085876309872_n.jpg" alt="Premium Barbering Services" loading="lazy">
+                    </div>
+                    <div class="gallery-img">
+                        <img src="images/SnapInsta.to_487954213_17908976949076869_8431426225019220090_n.jpg" alt="Levelz Barber Studio Work" loading="lazy">
+                    </div>
+                    <!-- Video Content -->
+                    <div class="gallery-img gallery-video">
+                        <video muted loop preload="metadata" autoplay>
+                            <source src="images/gallery/SnapInsta.to_AQPEmdwLD79WdGOUxGPJr5TS_hkBjk2ylGmjdNKQfEVxuAqRNO6Efu4ihH48yrSrRoYgveHU3ZdXiyzMLgYwu3EtEaQvRlekRK4XPq0.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="gallery-actions text-center">
+                <div class="cta-buttons-wrapper">
+                    <a href="https://www.google.com/maps/place/Levelz+Barber+Studio/@40.8654552,-74.6365108,1272m/data=!3m1!1e3!4m8!3m7!1s0x89c39f5404f2ec57:0x3c70b50d73eaed11!8m2!3d40.8654512!4d-74.6339359!9m1!1b1!16s%2Fg%2F11l5hk8vxs?entry=ttu&g_ep=EgoyMDI1MDcyMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn btn-outline-white cta-btn">Leave us a review!</a>
+                    <button class="btn btn-primary cta-btn" id="gallery-book-now" type="button">Book Now!</button>
+                </div>
             </div>
         </div>
     </section>
@@ -101,6 +168,24 @@
             </div>
         </div>
     </footer>
+
+    <!-- Gallery Modal -->
+    <div id="galleryModal" class="gallery-modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <button class="modal-nav modal-prev">&#8249;</button>
+            <img id="modalImage" class="modal-image" src="" alt="" style="display: none;">
+            <video id="modalVideo" class="modal-video" controls style="display: none;">
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <button class="modal-nav modal-next">&#8250;</button>
+            <div class="modal-counter">
+                <span id="modalCounter">1 / 20</span>
+            </div>
+        </div>
+    </div>
+
     <div style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;">
         <script>
           window.booksyWidgetConfig = {
@@ -108,7 +193,6 @@
             country: "us",
             lang: "en-US",
             button: {
-              container: ".js-booksy-open",
               label: "Book Now!"
             },
             mode: "dialog"
@@ -118,12 +202,5 @@
     </div>
 
     <script src="script.js"></script>
-    <!-- Instagram Gallery Scripts -->
-    <script src="components/gallery/config.js"></script>
-    <script src="components/gallery/working-instagram-scraper.js"></script>
-    <script src="components/gallery/advanced-instagram-scraper.js"></script>
-    <script src="components/gallery/robust-instagram-scraper.js"></script>
-    <script src="components/gallery/instagram-scraper.js"></script>
-    <script src="components/gallery/simplified-instagram-gallery.js"></script>
 </body>
 </html> 
