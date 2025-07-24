@@ -375,9 +375,11 @@
         <div class="container">
             <h2 class="gallery-title">Gallery</h2>
             
-            <!-- Custom Masonry Gallery -->
-            <div class="instagram-gallery-grid" id="instagram-gallery">
-                <!-- Photos will be loaded here dynamically -->
+            <!-- Masonry Gallery with existing transitions -->
+            <div class="gallery-masonry">
+                <div class="gallery-masonry-grid" id="gallery-masonry-grid">
+                    <!-- Photos will be loaded here - add your gallery images -->
+                </div>
             </div>
             
             <!-- Action Buttons -->
@@ -445,94 +447,42 @@
     </button>
 
     <script>
-        // Custom Instagram Gallery with Masonry Layout
-        function loadInstagramGallery() {
-            const gallery = document.getElementById('instagram-gallery');
+        // Simple gallery loader for masonry grid (works with existing script.js transitions)
+        function loadGalleryImages() {
+            const galleryGrid = document.getElementById('gallery-masonry-grid');
+            if (!galleryGrid) return;
             
-            // Sample photos - Replace these with your actual Instagram photos
-            // You can download them from your Instagram posts and store them in your images folder
-            const instagramPosts = [
-                {
-                    image: 'images/gallery/haircut-1.jpg', // Replace with actual image paths
-                    caption: 'Fresh fade by Alex',
-                    link: 'https://instagram.com/p/example1'
-                },
-                {
-                    image: 'images/gallery/haircut-2.jpg',
-                    caption: 'Classic beard trim',
-                    link: 'https://instagram.com/p/example2'
-                },
-                {
-                    image: 'images/gallery/haircut-3.jpg',
-                    caption: 'Modern style cut',
-                    link: 'https://instagram.com/p/example3'
-                },
-                {
-                    image: 'images/gallery/haircut-4.jpg',
-                    caption: 'Kids haircut special',
-                    link: 'https://instagram.com/p/example4'
-                },
-                {
-                    image: 'images/gallery/haircut-5.jpg',
-                    caption: 'Professional styling',
-                    link: 'https://instagram.com/p/example5'
-                },
-                {
-                    image: 'images/gallery/haircut-6.jpg',
-                    caption: 'Hot towel shave',
-                    link: 'https://instagram.com/p/example6'
-                }
+            // Sample gallery images - replace these paths with your actual photos
+            const galleryImages = [
+                'images/gallery/haircut-1.jpg',
+                'images/gallery/haircut-2.jpg', 
+                'images/gallery/haircut-3.jpg',
+                'images/gallery/haircut-4.jpg',
+                'images/gallery/haircut-5.jpg',
+                'images/gallery/haircut-6.jpg',
+                'images/gallery/haircut-7.jpg',
+                'images/gallery/haircut-8.jpg',
+                'images/gallery/haircut-9.jpg'
             ];
             
-            // Create gallery HTML
+            // Create gallery HTML with existing classes for masonry transitions
             let galleryHTML = '';
-            instagramPosts.forEach((post, index) => {
-                galleryHTML += `
-                    <div class="gallery-item" data-index="${index}" style="animation-delay: ${index * 0.1}s">
-                        <div class="gallery-image-container">
-                            <img src="${post.image}" alt="${post.caption}" loading="lazy" onerror="this.src='images/placeholder-haircut.jpg'">
-                            <div class="gallery-overlay">
-                                <div class="gallery-caption">${post.caption}</div>
-                                <a href="${post.link}" target="_blank" class="gallery-link">View on Instagram</a>
-                            </div>
-                        </div>
-                    </div>
-                `;
+            galleryImages.forEach((imagePath, index) => {
+                galleryHTML += `<img src="${imagePath}" alt="Levelz Barber Studio Work ${index + 1}" class="gallery-img" loading="lazy" onerror="this.style.display='none'">`;
             });
             
-            gallery.innerHTML = galleryHTML;
-            
-            // Animate items on scroll
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '50px'
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-in');
-                    }
-                });
-            }, observerOptions);
-            
-            // Observe all gallery items
-            document.querySelectorAll('.gallery-item').forEach(item => {
-                observer.observe(item);
-            });
+            galleryGrid.innerHTML = galleryHTML;
             
             console.log(`
-🎨 Custom Gallery Instructions:
-1. Create a 'gallery' folder inside your 'images' folder
-2. Download your best Instagram photos and save them as:
-   - haircut-1.jpg, haircut-2.jpg, etc.
-3. Update the instagramPosts array with your actual image paths
-4. Optionally add a placeholder-haircut.jpg for fallback
-5. The gallery will automatically create a responsive masonry layout
+📸 Gallery Setup Instructions:
+1. Add your photos to the 'images/gallery/' folder
+2. Name them: haircut-1.jpg, haircut-2.jpg, etc.
+3. The existing script.js will handle all the masonry animations
+4. Photos will fade in with staggered timing as you scroll
             `);
         }
 
-        document.addEventListener('DOMContentLoaded', loadInstagramGallery);
+        document.addEventListener('DOMContentLoaded', loadGalleryImages);
     </script>
     </script>
 </body>
