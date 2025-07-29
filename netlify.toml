@@ -1,0 +1,32 @@
+[build]
+  publish = "./"
+
+[[redirects]]
+  from = "http://levelzbarberstudio.com/*"
+  to = "https://levelzbarberstudio.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.levelzbarberstudio.com/*"
+  to = "https://levelzbarberstudio.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.levelzbarberstudio.com/*"
+  to = "https://levelzbarberstudio.com/:splat"
+  status = 301
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy-Report-Only = "default-src 'self'; img-src 'self' data: https:; script-src 'self' https://booksy.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-src https://booksy.com;"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Resource-Policy = "same-origin"
