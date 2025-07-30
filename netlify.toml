@@ -1,18 +1,7 @@
 [build]
   publish = "./"
 
-[[redirects]]
-  from = "http://levelzbarberstudio.com/*"
-  to = "https://levelzbarberstudio.com/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "http://www.levelzbarberstudio.com/*"
-  to = "https://levelzbarberstudio.com/:splat"
-  status = 301
-  force = true
-
+# Only redirect www to non-www, let DNS/hosting handle HTTP to HTTPS
 [[redirects]]
   from = "https://www.levelzbarberstudio.com/*"
   to = "https://levelzbarberstudio.com/:splat"
