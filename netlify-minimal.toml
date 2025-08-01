@@ -1,4 +1,0 @@
-[build]
-  publish = "./"
-
-# No redirects - let Netlify and DNS handle everything automatically
