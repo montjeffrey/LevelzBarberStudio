@@ -1,0 +1,28 @@
+[build]
+  publish = "."
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+
+# Build script to replace environment variables
+[build.processing]
+  skip_processing = false
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+# Environment variable substitution
+[build.processing.images]
+  compress = true 
