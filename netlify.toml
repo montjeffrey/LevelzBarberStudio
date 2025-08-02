@@ -5,6 +5,10 @@
 [build.environment]
   NODE_VERSION = "18"
 
+# Secrets scanning configuration
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS = "GOOGLE_ANALYTICS_ID"
+
 [[plugins]]
   package = "@netlify/plugin-lighthouse"
 

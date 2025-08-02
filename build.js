@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Get the tracking ID from environment variable
-const trackingId = process.env.GOOGLE_ANALYTICS_ID || 'G-NTV4YS7VF1';
+const trackingId = process.env.GOOGLE_ANALYTICS_ID || 'GA_PLACEHOLDER_ID';
 
 // List of HTML files to process
 const htmlFiles = [
@@ -22,13 +22,13 @@ htmlFiles.forEach(file => {
     
     // Replace the tracking ID in the analytics.js file reference
     content = content.replace(
-      /window\.GOOGLE_ANALYTICS_ID = 'G-NTV4YS7VF1';/g,
+      /window\.GOOGLE_ANALYTICS_ID = 'GA_PLACEHOLDER_ID';/g,
       `window.GOOGLE_ANALYTICS_ID = '${trackingId}';`
     );
     
     // Replace the tracking ID in the gtag script src
     content = content.replace(
-      /https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-NTV4YS7VF1/g,
+      /https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=GA_PLACEHOLDER_ID/g,
       `https://www.googletagmanager.com/gtag/js?id=${trackingId}`
     );
     
